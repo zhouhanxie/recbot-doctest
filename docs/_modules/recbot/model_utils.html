@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>recbot.model_utils &mdash; RecBot v0.1 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            RecBot
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">QUICK_START</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../quick_start/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick_start/installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">USAGE</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/main_usage.html">Main Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/interface.html">Interactive Interface</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RESOURCE</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../resource/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../resource/module_zoo.html">Module Zoo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../resource/model_zoo.html">Model Zoo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../resource/data_zoo.html">Dataset Zoo</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">DEVELOPER GUIDE</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../development/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../development/module.html">Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../development/model.html">Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../development/others.html">Others</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API REFERENCE</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/utils.html">recbot.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/models.html">recbot.models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/modules.html">recbot.modules</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">RecBot</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">recbot.model_utils</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for recbot.model_utils</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">PreTrainedModel</span>
+<span class="kn">from</span> <span class="nn">.configuration_utils</span> <span class="kn">import</span> <span class="n">BaseModelConfig</span>
+<span class="kn">from</span> <span class="nn">.module_utils</span> <span class="kn">import</span> <span class="n">BaseModule</span>
+
+
+<div class="viewcode-block" id="BaseModel"><a class="viewcode-back" href="../../reference/utils.html#recbot.model_utils.BaseModel">[docs]</a><span class="k">class</span> <span class="nc">BaseModel</span><span class="p">(</span><span class="n">PreTrainedModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The base customizable model for pretrained models.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        config (BaseModelConfig, optional): Configuration options for the model. Defaults to None.</span>
+<span class="sd">        rec_module (BaseModule, optional): The recognition module. Defaults to None.</span>
+<span class="sd">        gen_module (BaseModule, optional): The generation module. Defaults to None.</span>
+<span class="sd">        **kwargs: Additional keyword arguments to be passed to the parent class constructor.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        config_class (BaseModelConfig): The class for model configuration options.</span>
+<span class="sd">        rec_module (BaseModule, optional): The recognition module.</span>
+<span class="sd">        gen_module (BaseModule, optional): The generation module.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        AssertionError: If the types of `instanceA` and `instanceB` are not the same.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">config_class</span> <span class="o">=</span> <span class="n">BaseModelConfig</span>
+
+<div class="viewcode-block" id="BaseModel.__init__"><a class="viewcode-back" href="../../reference/utils.html#recbot.model_utils.BaseModel.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">BaseModelConfig</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">rec_module</span><span class="p">:</span> <span class="n">BaseModule</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">gen_module</span><span class="p">:</span> <span class="n">BaseModule</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">rec_module</span><span class="p">:</span>
+            <span class="n">rec_module</span><span class="o">.</span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">rec_module</span><span class="o">.</span><span class="n">get_tokenizer</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">gen_module</span><span class="p">:</span>
+            <span class="n">gen_module</span><span class="o">.</span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">gen_module</span><span class="o">.</span><span class="n">get_tokenizer</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rec_module</span> <span class="o">=</span> <span class="n">rec_module</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gen_module</span> <span class="o">=</span> <span class="n">gen_module</span></div>
+
+
+<div class="viewcode-block" id="BaseModel.response"><a class="viewcode-back" href="../../reference/utils.html#recbot.model_utils.BaseModel.response">[docs]</a>    <span class="k">def</span> <span class="nf">response</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate a response based on the input query.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            query (str): The input query.</span>
+<span class="sd">            *args: Additional positional arguments.</span>
+<span class="sd">            **kwargs: Additional keyword arguments.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            NotImplementedError: This method must be implemented in a subclass.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Any: The generated response.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="BaseModel.forward"><a class="viewcode-back" href="../../reference/utils.html#recbot.model_utils.BaseModel.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">inputs</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Forward pass of the model.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            *inputs: Input tensors or data.</span>
+<span class="sd">            **kwargs: Additional keyword arguments.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            NotImplementedError: This method must be implemented in a subclass.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Any: The output of the forward pass.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="BaseModel.__call__"><a class="viewcode-back" href="../../reference/utils.html#recbot.model_utils.BaseModel.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Make a callable instance of the model.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            query (str): The input query.</span>
+<span class="sd">            *args: Additional positional arguments.</span>
+<span class="sd">            **kwargs: Additional keyword arguments.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Any: The generated response.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">response</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BaseModel.tie_weights"><a class="viewcode-back" href="../../reference/utils.html#recbot.model_utils.BaseModel.tie_weights">[docs]</a>    <span class="k">def</span> <span class="nf">tie_weights</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instanceA</span><span class="p">,</span> <span class="n">instanceB</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Tie the weights of two instances.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            instanceA: An instance to tie weights with.</span>
+<span class="sd">            instanceB: An instance to tie weights with.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            AssertionError: If the types of `instanceA` and `instanceB` are not the same.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="nb">type</span><span class="p">(</span><span class="n">instanceA</span><span class="p">)</span> <span class="o">==</span> <span class="nb">type</span><span class="p">(</span><span class="n">instanceB</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, McAuley Lab.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

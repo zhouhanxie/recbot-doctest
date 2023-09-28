@@ -1,0 +1,36 @@
+recbot.utils
+--------------
+
+recbot.configuration_utils
+```````````````````````````
+
+.. autoclass:: recbot.configuration_utils.BaseConfig
+    :special-members: __init__
+
+.. autoclass:: recbot.configuration_utils.BaseModelConfig
+    :special-members: __init__
+
+recbot.module_utils
+````````````````````
+
+.. autoclass:: recbot.module_utils.BaseModule
+    :special-members: __init__
+    :members: prepare_weight, get_tokenizer, state_dict, load_state_dict, map_parameters, remove_ignores, load_checkpoint, LOAD_SAVE_IGNORES
+
+
+recbot.model_utils
+```````````````````
+
+.. autoclass:: recbot.model_utils.BaseModel
+    :special-members: __init__, __call__
+    :members: response, forward, tie_weights
+
+recbot.tokenizer_utils
+```````````````````````
+
+
+.. autoclass:: recbot.tokenizer_utils.BaseTokenizer
+    :special-members: __init__
+    :members: replace_special_tokens, encodes, preprocess
+
+.. autofunction:: recbot.tokenizer_utils.padded_tensor

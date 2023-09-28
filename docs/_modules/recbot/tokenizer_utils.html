@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>recbot.tokenizer_utils &mdash; RecBot v0.1 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            RecBot
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">QUICK_START</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../quick_start/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick_start/installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">USAGE</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/main_usage.html">Main Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/interface.html">Interactive Interface</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RESOURCE</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../resource/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../resource/module_zoo.html">Module Zoo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../resource/model_zoo.html">Model Zoo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../resource/data_zoo.html">Dataset Zoo</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">DEVELOPER GUIDE</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../development/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../development/module.html">Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../development/model.html">Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../development/others.html">Others</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API REFERENCE</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/utils.html">recbot.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/models.html">recbot.models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/modules.html">recbot.modules</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">RecBot</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">recbot.tokenizer_utils</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for recbot.tokenizer_utils</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Callable</span>
+
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">PreTrainedTokenizer</span><span class="p">,</span> <span class="n">AutoTokenizer</span>
+<span class="kn">from</span> <span class="nn">transformers.tokenization_utils_base</span> <span class="kn">import</span> <span class="n">BatchEncoding</span><span class="p">,</span> <span class="n">PreTrainedTokenizerBase</span>
+
+<span class="kn">from</span> <span class="nn">recbot.utility</span> <span class="kn">import</span> <span class="n">SEP_TOKEN</span><span class="p">,</span> <span class="n">CLS_TOKEN</span><span class="p">,</span> <span class="n">EOS_TOKEN</span><span class="p">,</span> <span class="n">ENTITY_PATTERN</span>
+
+<span class="n">Entity</span> <span class="o">=</span> <span class="nb">int</span>
+
+<div class="viewcode-block" id="BaseTokenizer"><a class="viewcode-back" href="../../reference/utils.html#recbot.tokenizer_utils.BaseTokenizer">[docs]</a><span class="k">class</span> <span class="nc">BaseTokenizer</span><span class="p">(</span><span class="n">PreTrainedTokenizer</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A custom tokenizer class that extends Transformers&#39; PreTrainedTokenizer,</span>
+<span class="sd">    offering entity handling, special token replacement, and advanced batch encoding functionalities.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        entity2id (Dict[str, int], optional): A mapping of entity names to IDs. Defaults to None.</span>
+<span class="sd">        pad_entity_id (int, optional): The ID to use for padding entities. Defaults to None.</span>
+<span class="sd">        tokenizers (Union[List[PreTrainedTokenizerBase], PreTrainedTokenizerBase]): A list of tokenizers or a single tokenizer. Defaults to None.</span>
+<span class="sd">        **kwargs: Additional keyword arguments.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        entity2uid (Dict[str, int]): A mapping of entity names to IDs.</span>
+<span class="sd">        uid2entity (Dict[int, str]): A mapping of entity IDs to names.</span>
+<span class="sd">        pad_entity_id (int): The ID used for padding entities.</span>
+<span class="sd">        tokenizers (List[PreTrainedTokenizerBase]): List of tokenizers.</span>
+<span class="sd">        entity_pattern (re.Pattern): Regular expression pattern for entities.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="BaseTokenizer.__init__"><a class="viewcode-back" href="../../reference/utils.html#recbot.tokenizer_utils.BaseTokenizer.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">entity2id</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">pad_entity_id</span><span class="p">:</span> <span class="nb">int</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">tokenizers</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">PreTrainedTokenizerBase</span><span class="p">],</span> <span class="n">PreTrainedTokenizerBase</span><span class="p">],</span>
+                 <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">entity2uid</span> <span class="o">=</span> <span class="n">entity2id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">uid2entity</span> <span class="o">=</span> <span class="p">{</span><span class="n">v</span><span class="p">:</span> <span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">entity2id</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pad_entity_id</span> <span class="o">=</span> <span class="n">pad_entity_id</span> <span class="k">if</span> <span class="n">pad_entity_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">entity2uid</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tokenizers</span> <span class="o">=</span> <span class="n">tokenizers</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tokenizers</span><span class="p">,</span> <span class="n">List</span><span class="p">)</span> <span class="k">else</span> <span class="p">[</span><span class="n">tokenizers</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">entity_pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">ENTITY_PATTERN</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">unk_token</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;unk&gt;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">unk_token_id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">vocab_size</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">entity2uid</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">_convert_token_to_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">token</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity2uid</span><span class="p">[</span><span class="n">token</span><span class="p">]</span> <span class="k">if</span> <span class="n">token</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity2uid</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">unk_token_id</span>
+
+    <span class="k">def</span> <span class="nf">_convert_id_to_token</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">uid2entity</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="k">if</span> <span class="n">index</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">uid2entity</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">unk_token</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="n">encoding</span><span class="p">:</span> <span class="n">BatchEncoding</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">prefix</span><span class="si">}</span><span class="s1">.input_ids&#39;</span><span class="p">:</span> <span class="n">encoding</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;input_ids&#39;</span><span class="p">],</span>
+            <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">prefix</span><span class="si">}</span><span class="s1">.attention_mask&#39;</span><span class="p">:</span> <span class="n">encoding</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;attention_mask&#39;</span><span class="p">]</span>
+        <span class="p">}</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">mergeEncoding</span><span class="p">(</span><span class="n">encodings</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">BatchEncoding</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">BatchEncoding</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">encodings</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">BatchEncoding</span><span class="p">({})</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">encodings</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">encoding</span> <span class="ow">in</span> <span class="n">encodings</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+            <span class="n">res</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">encoding</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">res</span>
+
+    <span class="n">pattern_sep_token</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">SEP_TOKEN</span><span class="p">)</span>
+    <span class="n">pattern_cls_token</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">CLS_TOKEN</span><span class="p">)</span>
+    <span class="n">pattern_eos_token</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">EOS_TOKEN</span><span class="p">)</span>
+
+<div class="viewcode-block" id="BaseTokenizer.replace_special_tokens"><a class="viewcode-back" href="../../reference/utils.html#recbot.tokenizer_utils.BaseTokenizer.replace_special_tokens">[docs]</a>    <span class="k">def</span> <span class="nf">replace_special_tokens</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Replace the cls token, sep token and eos token for each tokenizer</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            text (str): The input text to be replaced.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List[str]: A list of text, each processed for one tokenizer.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; text = &quot;This is a sample sentence [CLS] with [SEP] special tokens [EOS].&quot;</span>
+<span class="sd">            &gt;&gt;&gt; replace_special_tokens(text)</span>
+<span class="sd">            [&#39;This is a sample sentence with special tokens .&#39;]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">def</span> <span class="nf">replace_for_tokenizer</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">:</span> <span class="n">PreTrainedTokenizerBase</span><span class="p">):</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">replace_cls_token</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">)</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">replace_sep_token</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">)</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">replace_eos_token</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">text</span>
+
+        <span class="k">return</span> <span class="p">[</span><span class="n">replace_for_tokenizer</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">)</span> <span class="k">for</span> <span class="n">tokenizer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tokenizers</span><span class="p">]</span></div>
+
+    <span class="k">def</span> <span class="nf">replace_sep_token</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">:</span> <span class="n">PreTrainedTokenizerBase</span><span class="p">):</span>
+        <span class="n">token</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">_sep_token</span> <span class="ow">or</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">eos_token</span><span class="p">)</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pattern_sep_token</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">text</span>
+
+    <span class="k">def</span> <span class="nf">replace_cls_token</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">:</span> <span class="n">PreTrainedTokenizerBase</span><span class="p">):</span>
+        <span class="n">token</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">_cls_token</span> <span class="ow">or</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pattern_cls_token</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">text</span>
+    <span class="k">def</span> <span class="nf">replace_eos_token</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">:</span> <span class="n">PreTrainedTokenizerBase</span><span class="p">):</span>
+        <span class="n">token</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">_eos_token</span> <span class="ow">or</span> <span class="s1">&#39; &#39;</span><span class="p">)</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pattern_eos_token</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">text</span>
+
+<div class="viewcode-block" id="BaseTokenizer.encodes"><a class="viewcode-back" href="../../reference/utils.html#recbot.tokenizer_utils.BaseTokenizer.encodes">[docs]</a>    <span class="k">def</span> <span class="nf">encodes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">encode_funcs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Callable</span><span class="p">],</span> <span class="n">texts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]],</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">BatchEncoding</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function is called to apply encoding functions from different tokenizers. It will be</span>
+<span class="sd">        used by both `encode_plus` and `batch_encode_plus`.</span>
+
+<span class="sd">        If you want to call different tokenizers with different arguments, override this method.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            encode_funcs (List[Callable]): Encoding functions from `self.tokenizers`.</span>
+<span class="sd">            texts (List[Union[str, List[str]]]): Processed text for each encoding function.</span>
+<span class="sd">            **kwargs: Additional keyword arguments.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List[BatchEncoding]: A list of BatchEncoding objects, the length of the list is the same as the number of tokenizer.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">encode_funcs</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">texts</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">func</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="k">for</span> <span class="n">text</span><span class="p">,</span> <span class="n">func</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">texts</span><span class="p">,</span> <span class="n">encode_funcs</span><span class="p">)]</span></div>
+
+<div class="viewcode-block" id="BaseTokenizer.preprocess"><a class="viewcode-back" href="../../reference/utils.html#recbot.tokenizer_utils.BaseTokenizer.preprocess">[docs]</a>    <span class="k">def</span> <span class="nf">preprocess</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Override this function to preprocess the text. It will be used by both `encode_plus` and `batch_encode_plus`.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            text (str): The input text to be preprocessed.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: The processed text.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">text</span></div>
+
+    <span class="k">def</span> <span class="nf">batch_encode_plus</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">batch_text_or_text_pairs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="o">*</span><span class="n">args</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BatchEncoding</span><span class="p">:</span>
+        <span class="c1"># preprocess</span>
+        <span class="n">batch_text</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">preprocess</span><span class="p">,</span> <span class="n">batch_text_or_text_pairs</span><span class="p">)</span>
+        <span class="c1"># process entity</span>
+        <span class="n">processed_results</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">process_entities</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">batch_text</span><span class="p">]</span>
+        <span class="n">processed_text</span><span class="p">,</span> <span class="n">batch_entities</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">processed_results</span><span class="p">))</span>
+        <span class="c1"># replace sep token for each tokenzizer</span>
+        <span class="n">texts</span> <span class="o">=</span> <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">replace_special_tokens</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">processed_text</span><span class="p">])]</span>
+        <span class="c1"># call the encodes function on the list of tokenizer and the list of text</span>
+        <span class="n">encodings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">encodes</span><span class="p">([</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">batch_encode_plus</span> <span class="k">for</span> <span class="n">tokenizer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tokenizers</span><span class="p">],</span> <span class="n">texts</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">encodings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mergeEncoding</span><span class="p">(</span><span class="n">encodings</span><span class="p">)</span>
+        <span class="c1"># add entities to the encodings</span>
+        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;padding&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">batch_entities</span> <span class="o">=</span> <span class="n">padded_tensor</span><span class="p">(</span><span class="n">batch_entities</span><span class="p">,</span> <span class="n">pad_idx</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">pad_entity_id</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;return_tensors&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">batch_entities</span> <span class="o">=</span> <span class="n">batch_entities</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">encodings</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;entities&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">batch_entities</span>
+        <span class="k">return</span> <span class="n">encodings</span>
+
+    <span class="k">def</span> <span class="nf">encode_plus</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="o">*</span><span class="n">args</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BatchEncoding</span><span class="p">:</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">preprocess</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+        <span class="n">processed_text</span><span class="p">,</span> <span class="n">entities</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">process_entities</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+        <span class="n">texts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">replace_special_tokens</span><span class="p">(</span><span class="n">processed_text</span><span class="p">)</span>
+        <span class="n">encodings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">encodes</span><span class="p">([</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">encode_plus</span> <span class="k">for</span> <span class="n">tokenizer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tokenizers</span><span class="p">],</span> <span class="n">texts</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">encodings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mergeEncoding</span><span class="p">(</span><span class="n">encodings</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;return_tensors&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;pt&#39;</span><span class="p">:</span>
+            <span class="n">entities</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">entities</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span>
+        <span class="n">encodings</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;entities&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">entities</span>
+        <span class="k">return</span> <span class="n">encodings</span>
+
+
+    <span class="k">def</span> <span class="nf">process_entities</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Entity</span><span class="p">]]:</span>
+        <span class="n">entities</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">entity_pattern</span><span class="o">.</span><span class="n">finditer</span><span class="p">(</span><span class="n">text</span><span class="p">))):</span> <span class="c1"># use reverse to avoid breaking the span</span>
+            <span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">span</span><span class="p">()</span>
+            <span class="n">entity_name</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="p">[:</span><span class="n">start</span><span class="p">]</span> <span class="o">+</span> <span class="n">entity_name</span> <span class="o">+</span> <span class="n">text</span><span class="p">[</span><span class="n">end</span><span class="p">:]</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity2uid</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">entity_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity2uid</span><span class="p">:</span>
+                <span class="n">entities</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">entity2uid</span><span class="p">[</span><span class="n">entity_name</span><span class="p">])</span>
+        <span class="n">entities</span> <span class="o">=</span> <span class="n">entities</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">text</span><span class="p">,</span> <span class="n">entities</span>
+
+    <span class="k">def</span> <span class="nf">prepare_for_model</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">ids</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+        <span class="n">pair_ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">*</span><span class="n">args</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BatchEncoding</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">prepare_for_model</span><span class="p">(</span><span class="n">ids</span><span class="p">,</span> <span class="n">pair_ids</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">decode</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="n">args</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">tokenizers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">save_vocabulary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">save_directory</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">filename_prefix</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="n">filename_prefix</span> <span class="o">=</span> <span class="n">filename_prefix</span> <span class="o">+</span> <span class="s2">&quot;-&quot;</span> <span class="k">if</span> <span class="n">filename_prefix</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">vocab_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">save_directory</span><span class="p">,</span> <span class="n">filename_prefix</span><span class="p">,</span> <span class="s1">&#39;vocab.json&#39;</span><span class="p">)</span>
+        <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">entity2uid</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="n">vocab_path</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">vocab_path</span><span class="p">),</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_pretrained</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">pretrained_model_name_or_path</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;See `AutoTokenizer.from_pretrained` docstring.&quot;&quot;&quot;</span>
+        <span class="n">vocab</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pretrained_model_name_or_path</span><span class="p">,</span> <span class="s1">&#39;vocab.json&#39;</span><span class="p">)))</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;entity2id&#39;</span><span class="p">:</span> <span class="n">vocab</span><span class="p">})</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="padded_tensor"><a class="viewcode-back" href="../../reference/utils.html#recbot.tokenizer_utils.padded_tensor">[docs]</a><span class="k">def</span> <span class="nf">padded_tensor</span><span class="p">(</span>
+        <span class="n">items</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]],</span>
+        <span class="n">pad_idx</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">pad_tail</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a padded matrix from an uneven list of lists. Matrix is right-padded (filled to the right) by default, but can be</span>
+<span class="sd">    left padded if the flag is set to True. Matrix can also be placed on cuda automatically.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        items (list[iter[int]]): List of items.</span>
+<span class="sd">        pad_idx (int): The value to use for padding.</span>
+<span class="sd">        pad_tail (bool): If True, the matrix is right-padded; if False, it is left-padded.</span>
+<span class="sd">        max_len (int): If None, the max length is the maximum item length.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Tensor[int64]: Padded tensor.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; items = [[1, 2, 3], [4, 5], [6, 7, 8, 9]]</span>
+<span class="sd">        &gt;&gt;&gt; pad_idx = 0</span>
+<span class="sd">        &gt;&gt;&gt; create_padded_matrix(items, pad_idx, pad_tail=True, max_len=None)</span>
+<span class="sd">        tensor([[1, 2, 3, 0],</span>
+<span class="sd">                [0, 4, 5, 0],</span>
+<span class="sd">                [6, 7, 8, 9]], dtype=torch.int64)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># number of items</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">)</span>
+    <span class="c1"># length of each item</span>
+    <span class="n">lens</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">]</span>
+    <span class="c1"># max in time dimension</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">lens</span><span class="p">)</span>
+    <span class="c1"># if input tensors are empty, we should expand to nulls</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">output</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="n">t</span><span class="p">),</span> <span class="n">fill_value</span><span class="o">=</span><span class="n">pad_idx</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">length</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">lens</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="n">length</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+            <span class="n">item</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">pad_tail</span><span class="p">:</span>
+            <span class="n">output</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:</span><span class="n">length</span><span class="p">]</span> <span class="o">=</span> <span class="n">item</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">output</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">t</span> <span class="o">-</span> <span class="n">length</span><span class="p">:]</span> <span class="o">=</span> <span class="n">item</span>
+
+    <span class="k">return</span> <span class="n">output</span></div>
+
+
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">bert_tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">&#39;bert-base-uncased&#39;</span><span class="p">)</span>
+    <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">BaseTokenizer</span><span class="p">(</span><span class="n">entity2id</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;movie&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span> <span class="n">tokenizers</span><span class="o">=</span><span class="n">bert_tokenizer</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;The &lt;item&gt;movie&lt;/item&gt; is interesting&lt;sep&gt;Yes! I think so&quot;</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">tokenizer</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">return_token_type_ids</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+    <span class="n">save_dir</span> <span class="o">=</span> <span class="s2">&quot;dummy_tokenizer&quot;</span>
+    <span class="n">tokenizer</span><span class="o">.</span><span class="n">save_pretrained</span><span class="p">(</span><span class="n">save_dir</span><span class="p">)</span>
+    <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">BaseTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">save_dir</span><span class="p">,</span> <span class="n">tokenizers</span><span class="o">=</span><span class="n">bert_tokenizer</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">tokenizer</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">return_token_type_ids</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, McAuley Lab.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

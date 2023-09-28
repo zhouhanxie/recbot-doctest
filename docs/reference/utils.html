@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>recbot.utils &mdash; RecBot v0.1 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="recbot.models" href="models.html" />
+    <link rel="prev" title="Overview" href="overview.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            RecBot
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">QUICK_START</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quick_start/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick_start/installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">USAGE</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../usage/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/main_usage.html">Main Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/interface.html">Interactive Interface</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RESOURCE</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../resource/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../resource/module_zoo.html">Module Zoo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../resource/model_zoo.html">Model Zoo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../resource/data_zoo.html">Dataset Zoo</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">DEVELOPER GUIDE</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../development/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../development/module.html">Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../development/model.html">Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../development/others.html">Others</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API REFERENCE</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">recbot.utils</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#recbot-configuration-utils">recbot.configuration_utils</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#recbot.configuration_utils.BaseConfig"><code class="docutils literal notranslate"><span class="pre">BaseConfig</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#recbot.configuration_utils.BaseConfig.__init__"><code class="docutils literal notranslate"><span class="pre">BaseConfig.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#recbot.configuration_utils.BaseModelConfig"><code class="docutils literal notranslate"><span class="pre">BaseModelConfig</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#recbot.configuration_utils.BaseModelConfig.__init__"><code class="docutils literal notranslate"><span class="pre">BaseModelConfig.__init__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#recbot-module-utils">recbot.module_utils</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#recbot.module_utils.BaseModule"><code class="docutils literal notranslate"><span class="pre">BaseModule</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#recbot.module_utils.BaseModule.LOAD_SAVE_IGNORES"><code class="docutils literal notranslate"><span class="pre">BaseModule.LOAD_SAVE_IGNORES</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#recbot.module_utils.BaseModule.__init__"><code class="docutils literal notranslate"><span class="pre">BaseModule.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#recbot.module_utils.BaseModule.get_tokenizer"><code class="docutils literal notranslate"><span class="pre">BaseModule.get_tokenizer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#recbot.module_utils.BaseModule.prepare_weight"><code class="docutils literal notranslate"><span class="pre">BaseModule.prepare_weight()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#recbot.module_utils.BaseModule.state_dict"><code class="docutils literal notranslate"><span class="pre">BaseModule.state_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#recbot.module_utils.BaseModule.load_state_dict"><code class="docutils literal notranslate"><span class="pre">BaseModule.load_state_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#recbot.module_utils.BaseModule.map_parameters"><code class="docutils literal notranslate"><span class="pre">BaseModule.map_parameters()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#recbot.module_utils.BaseModule.remove_ignores"><code class="docutils literal notranslate"><span class="pre">BaseModule.remove_ignores()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#recbot.module_utils.BaseModule.load_checkpoint"><code class="docutils literal notranslate"><span class="pre">BaseModule.load_checkpoint()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#recbot-model-utils">recbot.model_utils</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#recbot.model_utils.BaseModel"><code class="docutils literal notranslate"><span class="pre">BaseModel</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#recbot.model_utils.BaseModel.config_class"><code class="docutils literal notranslate"><span class="pre">BaseModel.config_class</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#recbot.model_utils.BaseModel.rec_module"><code class="docutils literal notranslate"><span class="pre">BaseModel.rec_module</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#recbot.model_utils.BaseModel.gen_module"><code class="docutils literal notranslate"><span class="pre">BaseModel.gen_module</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#recbot.model_utils.BaseModel.__init__"><code class="docutils literal notranslate"><span class="pre">BaseModel.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#recbot.model_utils.BaseModel.response"><code class="docutils literal notranslate"><span class="pre">BaseModel.response()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#recbot.model_utils.BaseModel.forward"><code class="docutils literal notranslate"><span class="pre">BaseModel.forward()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#recbot.model_utils.BaseModel.__call__"><code class="docutils literal notranslate"><span class="pre">BaseModel.__call__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#recbot.model_utils.BaseModel.tie_weights"><code class="docutils literal notranslate"><span class="pre">BaseModel.tie_weights()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#recbot-tokenizer-utils">recbot.tokenizer_utils</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#recbot.tokenizer_utils.BaseTokenizer"><code class="docutils literal notranslate"><span class="pre">BaseTokenizer</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#recbot.tokenizer_utils.BaseTokenizer.entity2uid"><code class="docutils literal notranslate"><span class="pre">BaseTokenizer.entity2uid</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#recbot.tokenizer_utils.BaseTokenizer.uid2entity"><code class="docutils literal notranslate"><span class="pre">BaseTokenizer.uid2entity</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#recbot.tokenizer_utils.BaseTokenizer.pad_entity_id"><code class="docutils literal notranslate"><span class="pre">BaseTokenizer.pad_entity_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#recbot.tokenizer_utils.BaseTokenizer.tokenizers"><code class="docutils literal notranslate"><span class="pre">BaseTokenizer.tokenizers</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#recbot.tokenizer_utils.BaseTokenizer.entity_pattern"><code class="docutils literal notranslate"><span class="pre">BaseTokenizer.entity_pattern</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#recbot.tokenizer_utils.BaseTokenizer.__init__"><code class="docutils literal notranslate"><span class="pre">BaseTokenizer.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#recbot.tokenizer_utils.BaseTokenizer.replace_special_tokens"><code class="docutils literal notranslate"><span class="pre">BaseTokenizer.replace_special_tokens()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#recbot.tokenizer_utils.BaseTokenizer.encodes"><code class="docutils literal notranslate"><span class="pre">BaseTokenizer.encodes()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#recbot.tokenizer_utils.BaseTokenizer.preprocess"><code class="docutils literal notranslate"><span class="pre">BaseTokenizer.preprocess()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#recbot.tokenizer_utils.padded_tensor"><code class="docutils literal notranslate"><span class="pre">padded_tensor()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="models.html">recbot.models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">recbot.modules</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">RecBot</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">recbot.utils</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/reference/utils.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="recbot-utils">
+<h1>recbot.utils<a class="headerlink" href="#recbot-utils" title="Permalink to this heading"></a></h1>
+<section id="recbot-configuration-utils">
+<h2>recbot.configuration_utils<a class="headerlink" href="#recbot-configuration-utils" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="recbot.configuration_utils.BaseConfig">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">recbot.configuration_utils.</span></span><span class="sig-name descname"><span class="pre">BaseConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">WEIGHT_DIMENSIONS</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/recbot/configuration_utils.html#BaseConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#recbot.configuration_utils.BaseConfig" title="Permalink to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="recbot.configuration_utils.BaseConfig.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">WEIGHT_DIMENSIONS</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/recbot/configuration_utils.html#BaseConfig.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#recbot.configuration_utils.BaseConfig.__init__" title="Permalink to this definition"></a></dt>
+<dd><p>A generic configuration class used to define additional configuration attributes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>weight_dimensions</strong> (<em>dict</em><em> or </em><em>None</em>) – A dictionary specifying weight dimensions. Defaults to None.</p></li>
+<li><p><strong>**kwargs</strong> – Additional keyword arguments to be passed to the parent class constructor.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="recbot.configuration_utils.BaseModelConfig">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">recbot.configuration_utils.</span></span><span class="sig-name descname"><span class="pre">BaseModelConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/recbot/configuration_utils.html#BaseModelConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#recbot.configuration_utils.BaseModelConfig" title="Permalink to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="recbot.configuration_utils.BaseModelConfig.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/recbot/configuration_utils.html#BaseModelConfig.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#recbot.configuration_utils.BaseModelConfig.__init__" title="Permalink to this definition"></a></dt>
+<dd><p>A base configuration class for specific model architectures.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>**kwargs</strong> – Additional keyword arguments to be passed to the parent class constructor.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="recbot-module-utils">
+<h2>recbot.module_utils<a class="headerlink" href="#recbot-module-utils" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="recbot.module_utils.BaseModule">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">recbot.module_utils.</span></span><span class="sig-name descname"><span class="pre">BaseModule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#recbot.configuration_utils.BaseConfig" title="recbot.configuration_utils.BaseConfig"><span class="pre">BaseConfig</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/recbot/module_utils.html#BaseModule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#recbot.module_utils.BaseModule" title="Permalink to this definition"></a></dt>
+<dd><p>The base class for pretrained models. Supporting partial load/save and state dict mapping.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="recbot.module_utils.BaseModule.LOAD_SAVE_IGNORES">
+<span class="sig-name descname"><span class="pre">LOAD_SAVE_IGNORES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#recbot.module_utils.BaseModule.LOAD_SAVE_IGNORES" title="Permalink to this definition"></a></dt>
+<dd><dl class="simple">
+<dt>The set of external modules which will be skipped both in state_dict() and load_state_dict().</dt><dd><p>e.g. When a fixed PretrainedModel is used as an encoder, we can set LOAD_SAVE_IGNORES={“encoder”} to skip
+loading the encoder.</p>
+</dd>
+</dl>
+<p>We suggest using it when your module has a fixed part, in order to reduce the size of checkpoint.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="recbot.module_utils.BaseModule.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#recbot.configuration_utils.BaseConfig" title="recbot.configuration_utils.BaseConfig"><span class="pre">BaseConfig</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/recbot/module_utils.html#BaseModule.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#recbot.module_utils.BaseModule.__init__" title="Permalink to this definition"></a></dt>
+<dd><p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="recbot.module_utils.BaseModule.get_tokenizer">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_tokenizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">push_to_hub</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repo_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/recbot/module_utils.html#BaseModule.get_tokenizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#recbot.module_utils.BaseModule.get_tokenizer" title="Permalink to this definition"></a></dt>
+<dd><p>Initialize the tokenizer for the module. It will be called by RecBot models to initialize tokenizer.</p>
+<p><strong>It must be properly implemented for every module</strong></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>push_to_hub</strong> (<em>bool</em>) – if False, will first try to load tokenizer from pretrained, and tries to initialize from scratch upon failure
+if set to True, will force re-intialize the tokenizer and push it to hub.</p></li>
+<li><p><strong>repo_id</strong> (<em>str</em>) – the repo for which the tokenizer will be pushed to. Default to f”{HF_ORG}/{cls.tokenizer_class.__name__}”</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="recbot.module_utils.BaseModule.prepare_weight">
+<span class="sig-name descname"><span class="pre">prepare_weight</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/recbot/module_utils.html#BaseModule.prepare_weight"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#recbot.module_utils.BaseModule.prepare_weight" title="Permalink to this definition"></a></dt>
+<dd><p>This function wraps a weight passed for initializing a module parameter and saves its <cite>shape</cite> and <cite>dtype</cite> as a
+pytorch tensor; so when <cite>from_pretrained</cite> is called without passing the weight (i.e. when <cite>weight</cite> is None),
+the corresponding parameter is initialized from the saved <cite>shape</cite> and <cite>dtype</cite>
+before <cite>load_state_dict</cite> is called to copy the module’s weights.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>weight</strong> – the weight that will be copied to a parameter of the module</p></li>
+<li><p><strong>name</strong> – a name to distinguish the weight in the module config</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a pytorch tensor with the same value as <cite>weight</cite> if <cite>weight</cite> is not None, otherwise a zero tensor with
+the saved <cite>shape</cite> and <cite>dtype</cite> in the module config.</p>
+</dd>
+</dl>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">module</span><span class="o">.</span><span class="n">prepare_weight</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">]),</span> <span class="s2">&quot;example_weight&quot;</span><span class="p">)</span>
+<span class="go">tensor([1., 2., 3.])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">module</span><span class="o">.</span><span class="n">prepare_weight</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;example_weight&quot;</span><span class="p">)</span>
+<span class="go">tensor([0., 0., 0.])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="recbot.module_utils.BaseModule.state_dict">
+<span class="sig-name descname"><span class="pre">state_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keep_vars</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/recbot/module_utils.html#BaseModule.state_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#recbot.module_utils.BaseModule.state_dict" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a dictionary containing references to the whole state of the module.</p>
+<blockquote>
+<div><p>Both parameters and persistent buffers (e.g. running averages) are
+included. Keys are corresponding parameter and buffer names.
+Parameters and buffers set to <code class="docutils literal notranslate"><span class="pre">None</span></code> are not included.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The returned object is a shallow copy. It contains references
+to the module’s parameters and buffers.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Currently <code class="docutils literal notranslate"><span class="pre">state_dict()</span></code> also accepts positional arguments for
+<code class="docutils literal notranslate"><span class="pre">destination</span></code>, <code class="docutils literal notranslate"><span class="pre">prefix</span></code> and <code class="docutils literal notranslate"><span class="pre">keep_vars</span></code> in order. However,
+this is being deprecated and keyword arguments will be enforced in
+future releases.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Please avoid the use of argument <code class="docutils literal notranslate"><span class="pre">destination</span></code> as it is not
+designed for end-users.</p>
+</div>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>destination (dict, optional): If provided, the state of module will</dt><dd><p>be updated into the dict and the same object is returned.
+Otherwise, an <code class="docutils literal notranslate"><span class="pre">OrderedDict</span></code> will be created and returned.
+Default: <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+</dd>
+<dt>prefix (str, optional): a prefix added to parameter and buffer</dt><dd><p>names to compose the keys in state_dict. Default: <code class="docutils literal notranslate"><span class="pre">''</span></code>.</p>
+</dd>
+<dt>keep_vars (bool, optional): by default the <code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code> s</dt><dd><p>returned in the state dict are detached from autograd. If it’s
+set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, detaching will not be performed.
+Default: <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>dict:</dt><dd><p>a dictionary containing a whole state of the module</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p>Example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># xdoctest: +SKIP(&quot;undefined vars&quot;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">module</span><span class="o">.</span><span class="n">state_dict</span><span class="p">()</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="go">[&#39;bias&#39;, &#39;weight&#39;]</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>k,m</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="recbot.module_utils.BaseModule.load_state_dict">
+<span class="sig-name descname"><span class="pre">load_state_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">OrderedDict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tensor</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">LOAD_PREFIX</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">LOAD_MAPPINGS</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">LOAD_IGNORES</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">()</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/recbot/module_utils.html#BaseModule.load_state_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#recbot.module_utils.BaseModule.load_state_dict" title="Permalink to this definition"></a></dt>
+<dd><p>Adapted from pytorch’s original implementation to support some new features</p>
+<p>—</p>
+<p>Copies parameters and buffers from <a class="reference internal" href="#recbot.module_utils.BaseModule.state_dict" title="recbot.module_utils.BaseModule.state_dict"><code class="xref py py-attr docutils literal notranslate"><span class="pre">state_dict</span></code></a> into
+this module and its descendants. If <code class="xref py py-attr docutils literal notranslate"><span class="pre">strict</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>, then
+the keys of <a class="reference internal" href="#recbot.module_utils.BaseModule.state_dict" title="recbot.module_utils.BaseModule.state_dict"><code class="xref py py-attr docutils literal notranslate"><span class="pre">state_dict</span></code></a> must exactly match the keys returned
+by this module’s <code class="xref py py-meth docutils literal notranslate"><span class="pre">state_dict()</span></code> function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>state_dict</strong> (<em>dict</em>) – a dict containing parameters and
+persistent buffers.</p></li>
+<li><p><strong>strict</strong> (<em>bool</em><em>, </em><em>optional</em>) – whether to strictly enforce that the keys
+in <a class="reference internal" href="#recbot.module_utils.BaseModule.state_dict" title="recbot.module_utils.BaseModule.state_dict"><code class="xref py py-attr docutils literal notranslate"><span class="pre">state_dict</span></code></a> match the keys returned by this module’s
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">state_dict()</span></code> function. Default: <code class="docutils literal notranslate"><span class="pre">True</span></code></p></li>
+<li><p><strong>LOAD_PREFIX</strong> – When set, will load state dict from a prefix <cite>LOAD_PREFIX</cite></p></li>
+<li><p><strong>LOAD_MAPPINGS</strong> – When set, for each <cite>key</cite>, <cite>val</cite> pair in the dict, any parameter in state_dict
+that has <cite>key</cite> as a prefix will be mapped to one that has <cite>val</cite> in place of <cite>key</cite> as a new prefix.
+(This parameter is useful when the submodules/parameters have different names from their counterparts
+in the state dict.)</p></li>
+<li><p><strong>LOAD_IGNORES</strong> – When set, the submodules in the state_dict that match any pattern in <cite>LOAD_IGNORES</cite>
+will be ignored in loading.
+(This option can be useful when you use a frozen pre-trained model inside your model
+to avoid duplicate loading and saving)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>missing_keys</strong> is a list of str containing the missing keys</p></li>
+<li><p><strong>unexpected_keys</strong> is a list of str containing the unexpected keys</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">NamedTuple</span></code> with <code class="docutils literal notranslate"><span class="pre">missing_keys</span></code> and <code class="docutils literal notranslate"><span class="pre">unexpected_keys</span></code> fields</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="recbot.module_utils.BaseModule.map_parameters">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">map_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name_mappings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove_origin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/recbot/module_utils.html#BaseModule.map_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#recbot.module_utils.BaseModule.map_parameters" title="Permalink to this definition"></a></dt>
+<dd><p>Map parameters in state_dict to another name according to <code class="docutils literal notranslate"><span class="pre">name_mappings</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name_mappings</strong> (<em>dict</em>) – a dict that maps the original parameter name to the new name.</p></li>
+<li><p><strong>state_dict</strong> (<em>dict</em>) – the state dict to be mapped.</p></li>
+<li><p><strong>remove_origin</strong> (<em>bool</em>) – whether to remove the original parameter.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the mapped state dict.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">state_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;block1.weight&#39;</span><span class="p">:</span> <span class="n">tensor1</span><span class="p">,</span> <span class="s1">&#39;block1.bias&#39;</span><span class="p">:</span> <span class="n">tensor2</span><span class="p">,</span> <span class="s1">&#39;block2.weight&#39;</span><span class="p">:</span> <span class="n">tensor3</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">name_mappings</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;block1.&#39;</span><span class="p">:</span> <span class="s1">&#39;module1.&#39;</span><span class="p">,</span> <span class="s1">&#39;block2.&#39;</span><span class="p">:</span> <span class="s1">&#39;module2.&#39;</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mapped_state_dict</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="n">map_parameters</span><span class="p">(</span><span class="n">name_mappings</span><span class="p">,</span> <span class="n">state_dict</span><span class="p">,</span> <span class="n">remove_origin</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">{&#39;module1.weight&#39;: tensor1, &#39;module1.bias&#39;: tensor2, &#39;module2.weight&#39;: tensor3, &#39;block1.weight&#39;: tensor1, &#39;block1.bias&#39;: tensor2, &#39;block2.weight&#39;: tensor3}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="recbot.module_utils.BaseModule.remove_ignores">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">remove_ignores</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">load_ignores</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/recbot/module_utils.html#BaseModule.remove_ignores"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#recbot.module_utils.BaseModule.remove_ignores" title="Permalink to this definition"></a></dt>
+<dd><p>Remove parameters in state_dict according to <code class="docutils literal notranslate"><span class="pre">load_ignores</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>load_ignores</strong> (<em>list</em>) – a list of prefixes to be ignored.</p></li>
+<li><p><strong>state_dict</strong> (<em>dict</em>) – the state dict to operate on.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the state dict after removing ignored parameters.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="recbot.module_utils.BaseModule.load_checkpoint">
+<span class="sig-name descname"><span class="pre">load_checkpoint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">checkpoint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/recbot/module_utils.html#BaseModule.load_checkpoint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#recbot.module_utils.BaseModule.load_checkpoint" title="Permalink to this definition"></a></dt>
+<dd><p>Use this function to load a checkpoint which is not in the same directory with the config file
+(e.g. when you are developing a new model).</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="recbot-model-utils">
+<h2>recbot.model_utils<a class="headerlink" href="#recbot-model-utils" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="recbot.model_utils.BaseModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">recbot.model_utils.</span></span><span class="sig-name descname"><span class="pre">BaseModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#recbot.configuration_utils.BaseModelConfig" title="recbot.configuration_utils.BaseModelConfig"><span class="pre">BaseModelConfig</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rec_module</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#recbot.module_utils.BaseModule" title="recbot.module_utils.BaseModule"><span class="pre">BaseModule</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gen_module</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#recbot.module_utils.BaseModule" title="recbot.module_utils.BaseModule"><span class="pre">BaseModule</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/recbot/model_utils.html#BaseModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#recbot.model_utils.BaseModel" title="Permalink to this definition"></a></dt>
+<dd><p>The base customizable model for pretrained models.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>config</strong> (<a class="reference internal" href="#recbot.configuration_utils.BaseModelConfig" title="recbot.configuration_utils.BaseModelConfig"><em>BaseModelConfig</em></a><em>, </em><em>optional</em>) – Configuration options for the model. Defaults to None.</p></li>
+<li><p><strong>rec_module</strong> (<a class="reference internal" href="#recbot.module_utils.BaseModule" title="recbot.module_utils.BaseModule"><em>BaseModule</em></a><em>, </em><em>optional</em>) – The recognition module. Defaults to None.</p></li>
+<li><p><strong>gen_module</strong> (<a class="reference internal" href="#recbot.module_utils.BaseModule" title="recbot.module_utils.BaseModule"><em>BaseModule</em></a><em>, </em><em>optional</em>) – The generation module. Defaults to None.</p></li>
+<li><p><strong>**kwargs</strong> – Additional keyword arguments to be passed to the parent class constructor.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="recbot.model_utils.BaseModel.config_class">
+<span class="sig-name descname"><span class="pre">config_class</span></span><a class="headerlink" href="#recbot.model_utils.BaseModel.config_class" title="Permalink to this definition"></a></dt>
+<dd><p>The class for model configuration options.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#recbot.configuration_utils.BaseModelConfig" title="recbot.configuration_utils.BaseModelConfig">BaseModelConfig</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="recbot.model_utils.BaseModel.rec_module">
+<span class="sig-name descname"><span class="pre">rec_module</span></span><a class="headerlink" href="#recbot.model_utils.BaseModel.rec_module" title="Permalink to this definition"></a></dt>
+<dd><p>The recognition module.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#recbot.module_utils.BaseModule" title="recbot.module_utils.BaseModule">BaseModule</a>, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="recbot.model_utils.BaseModel.gen_module">
+<span class="sig-name descname"><span class="pre">gen_module</span></span><a class="headerlink" href="#recbot.model_utils.BaseModel.gen_module" title="Permalink to this definition"></a></dt>
+<dd><p>The generation module.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#recbot.module_utils.BaseModule" title="recbot.module_utils.BaseModule">BaseModule</a>, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>AssertionError</strong> – If the types of <cite>instanceA</cite> and <cite>instanceB</cite> are not the same.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="recbot.model_utils.BaseModel.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#recbot.configuration_utils.BaseModelConfig" title="recbot.configuration_utils.BaseModelConfig"><span class="pre">BaseModelConfig</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rec_module</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#recbot.module_utils.BaseModule" title="recbot.module_utils.BaseModule"><span class="pre">BaseModule</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gen_module</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#recbot.module_utils.BaseModule" title="recbot.module_utils.BaseModule"><span class="pre">BaseModule</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/recbot/model_utils.html#BaseModel.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#recbot.model_utils.BaseModel.__init__" title="Permalink to this definition"></a></dt>
+<dd><p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="recbot.model_utils.BaseModel.response">
+<span class="sig-name descname"><span class="pre">response</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/recbot/model_utils.html#BaseModel.response"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#recbot.model_utils.BaseModel.response" title="Permalink to this definition"></a></dt>
+<dd><p>Generate a response based on the input query.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>query</strong> (<em>str</em>) – The input query.</p></li>
+<li><p><strong>*args</strong> – Additional positional arguments.</p></li>
+<li><p><strong>**kwargs</strong> – Additional keyword arguments.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>NotImplementedError</strong> – This method must be implemented in a subclass.</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The generated response.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Any</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="recbot.model_utils.BaseModel.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/recbot/model_utils.html#BaseModel.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#recbot.model_utils.BaseModel.forward" title="Permalink to this definition"></a></dt>
+<dd><p>Forward pass of the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>*inputs</strong> – Input tensors or data.</p></li>
+<li><p><strong>**kwargs</strong> – Additional keyword arguments.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>NotImplementedError</strong> – This method must be implemented in a subclass.</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The output of the forward pass.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Any</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="recbot.model_utils.BaseModel.__call__">
+<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/recbot/model_utils.html#BaseModel.__call__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#recbot.model_utils.BaseModel.__call__" title="Permalink to this definition"></a></dt>
+<dd><p>Make a callable instance of the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>query</strong> (<em>str</em>) – The input query.</p></li>
+<li><p><strong>*args</strong> – Additional positional arguments.</p></li>
+<li><p><strong>**kwargs</strong> – Additional keyword arguments.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The generated response.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Any</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="recbot.model_utils.BaseModel.tie_weights">
+<span class="sig-name descname"><span class="pre">tie_weights</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">instanceA</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instanceB</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/recbot/model_utils.html#BaseModel.tie_weights"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#recbot.model_utils.BaseModel.tie_weights" title="Permalink to this definition"></a></dt>
+<dd><p>Tie the weights of two instances.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>instanceA</strong> – An instance to tie weights with.</p></li>
+<li><p><strong>instanceB</strong> – An instance to tie weights with.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>AssertionError</strong> – If the types of <cite>instanceA</cite> and <cite>instanceB</cite> are not the same.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="recbot-tokenizer-utils">
+<h2>recbot.tokenizer_utils<a class="headerlink" href="#recbot-tokenizer-utils" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="recbot.tokenizer_utils.BaseTokenizer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">recbot.tokenizer_utils.</span></span><span class="sig-name descname"><span class="pre">BaseTokenizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entity2id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pad_entity_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokenizers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">typing.Union[typing.List[transformers.tokenization_utils_base.PreTrainedTokenizerBase],</span> <span class="pre">transformers.tokenization_utils_base.PreTrainedTokenizerBase]</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/recbot/tokenizer_utils.html#BaseTokenizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#recbot.tokenizer_utils.BaseTokenizer" title="Permalink to this definition"></a></dt>
+<dd><p>A custom tokenizer class that extends Transformers’ PreTrainedTokenizer,
+offering entity handling, special token replacement, and advanced batch encoding functionalities.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>entity2id</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>int</em><em>]</em><em>, </em><em>optional</em>) – A mapping of entity names to IDs. Defaults to None.</p></li>
+<li><p><strong>pad_entity_id</strong> (<em>int</em><em>, </em><em>optional</em>) – The ID to use for padding entities. Defaults to None.</p></li>
+<li><p><strong>tokenizers</strong> (<em>Union</em><em>[</em><em>List</em><em>[</em><em>PreTrainedTokenizerBase</em><em>]</em><em>, </em><em>PreTrainedTokenizerBase</em><em>]</em>) – A list of tokenizers or a single tokenizer. Defaults to None.</p></li>
+<li><p><strong>**kwargs</strong> – Additional keyword arguments.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="recbot.tokenizer_utils.BaseTokenizer.entity2uid">
+<span class="sig-name descname"><span class="pre">entity2uid</span></span><a class="headerlink" href="#recbot.tokenizer_utils.BaseTokenizer.entity2uid" title="Permalink to this definition"></a></dt>
+<dd><p>A mapping of entity names to IDs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dict[str, int]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="recbot.tokenizer_utils.BaseTokenizer.uid2entity">
+<span class="sig-name descname"><span class="pre">uid2entity</span></span><a class="headerlink" href="#recbot.tokenizer_utils.BaseTokenizer.uid2entity" title="Permalink to this definition"></a></dt>
+<dd><p>A mapping of entity IDs to names.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dict[int, str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="recbot.tokenizer_utils.BaseTokenizer.pad_entity_id">
+<span class="sig-name descname"><span class="pre">pad_entity_id</span></span><a class="headerlink" href="#recbot.tokenizer_utils.BaseTokenizer.pad_entity_id" title="Permalink to this definition"></a></dt>
+<dd><p>The ID used for padding entities.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="recbot.tokenizer_utils.BaseTokenizer.tokenizers">
+<span class="sig-name descname"><span class="pre">tokenizers</span></span><a class="headerlink" href="#recbot.tokenizer_utils.BaseTokenizer.tokenizers" title="Permalink to this definition"></a></dt>
+<dd><p>List of tokenizers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[PreTrainedTokenizerBase]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="recbot.tokenizer_utils.BaseTokenizer.entity_pattern">
+<span class="sig-name descname"><span class="pre">entity_pattern</span></span><a class="headerlink" href="#recbot.tokenizer_utils.BaseTokenizer.entity_pattern" title="Permalink to this definition"></a></dt>
+<dd><p>Regular expression pattern for entities.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>re.Pattern</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="recbot.tokenizer_utils.BaseTokenizer.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entity2id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pad_entity_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokenizers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">typing.Union[typing.List[transformers.tokenization_utils_base.PreTrainedTokenizerBase],</span> <span class="pre">transformers.tokenization_utils_base.PreTrainedTokenizerBase]</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/recbot/tokenizer_utils.html#BaseTokenizer.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#recbot.tokenizer_utils.BaseTokenizer.__init__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="recbot.tokenizer_utils.BaseTokenizer.replace_special_tokens">
+<span class="sig-name descname"><span class="pre">replace_special_tokens</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/recbot/tokenizer_utils.html#BaseTokenizer.replace_special_tokens"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#recbot.tokenizer_utils.BaseTokenizer.replace_special_tokens" title="Permalink to this definition"></a></dt>
+<dd><p>Replace the cls token, sep token and eos token for each tokenizer</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>text</strong> (<em>str</em>) – The input text to be replaced.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of text, each processed for one tokenizer.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[str]</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;This is a sample sentence [CLS] with [SEP] special tokens [EOS].&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">replace_special_tokens</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+<span class="go">[&#39;This is a sample sentence with special tokens .&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="recbot.tokenizer_utils.BaseTokenizer.encodes">
+<span class="sig-name descname"><span class="pre">encodes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">encode_funcs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">texts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">BatchEncoding</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/recbot/tokenizer_utils.html#BaseTokenizer.encodes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#recbot.tokenizer_utils.BaseTokenizer.encodes" title="Permalink to this definition"></a></dt>
+<dd><p>This function is called to apply encoding functions from different tokenizers. It will be
+used by both <cite>encode_plus</cite> and <cite>batch_encode_plus</cite>.</p>
+<p>If you want to call different tokenizers with different arguments, override this method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>encode_funcs</strong> (<em>List</em><em>[</em><em>Callable</em><em>]</em>) – Encoding functions from <cite>self.tokenizers</cite>.</p></li>
+<li><p><strong>texts</strong> (<em>List</em><em>[</em><em>Union</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>str</em><em>]</em><em>]</em><em>]</em>) – Processed text for each encoding function.</p></li>
+<li><p><strong>**kwargs</strong> – Additional keyword arguments.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of BatchEncoding objects, the length of the list is the same as the number of tokenizer.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[BatchEncoding]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="recbot.tokenizer_utils.BaseTokenizer.preprocess">
+<span class="sig-name descname"><span class="pre">preprocess</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../_modules/recbot/tokenizer_utils.html#BaseTokenizer.preprocess"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#recbot.tokenizer_utils.BaseTokenizer.preprocess" title="Permalink to this definition"></a></dt>
+<dd><p>Override this function to preprocess the text. It will be used by both <cite>encode_plus</cite> and <cite>batch_encode_plus</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>text</strong> (<em>str</em>) – The input text to be preprocessed.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The processed text.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="recbot.tokenizer_utils.padded_tensor">
+<span class="sig-prename descclassname"><span class="pre">recbot.tokenizer_utils.</span></span><span class="sig-name descname"><span class="pre">padded_tensor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">items</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tensor</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pad_idx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pad_tail</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="reference internal" href="../_modules/recbot/tokenizer_utils.html#padded_tensor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#recbot.tokenizer_utils.padded_tensor" title="Permalink to this definition"></a></dt>
+<dd><p>Create a padded matrix from an uneven list of lists. Matrix is right-padded (filled to the right) by default, but can be
+left padded if the flag is set to True. Matrix can also be placed on cuda automatically.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>items</strong> (<em>list</em><em>[</em><em>iter</em><em>[</em><em>int</em><em>]</em><em>]</em>) – List of items.</p></li>
+<li><p><strong>pad_idx</strong> (<em>int</em>) – The value to use for padding.</p></li>
+<li><p><strong>pad_tail</strong> (<em>bool</em>) – If True, the matrix is right-padded; if False, it is left-padded.</p></li>
+<li><p><strong>max_len</strong> (<em>int</em>) – If None, the max length is the maximum item length.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Padded tensor.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tensor[int64]</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">items</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pad_idx</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">create_padded_matrix</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">pad_idx</span><span class="p">,</span> <span class="n">pad_tail</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">max_len</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="go">tensor([[1, 2, 3, 0],</span>
+<span class="go">        [0, 4, 5, 0],</span>
+<span class="go">        [6, 7, 8, 9]], dtype=torch.int64)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="overview.html" class="btn btn-neutral float-left" title="Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="models.html" class="btn btn-neutral float-right" title="recbot.models" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, McAuley Lab.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
